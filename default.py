@@ -110,7 +110,7 @@ def list_videos(callback, page, query=None, channel=None):
 
         li.setInfo("video", {
             "title": i["title"],
-            "plot": "[B]" + date + " - " + dt.strftime("%H:%M") + "[/B]\n" + i["description"],
+            "plot": "[B]" + i["title"] + "\n\n" + date + " - " + dt.strftime("%H:%M") + "[/B]\n" + i["description"],
             "dateadded": dt.strftime("%Y-%m-%d %H:%M:%S"),
             "date": dt.strftime("%d.%m.%Y"),
             "aired": dt.strftime("%d.%m.%Y"),
