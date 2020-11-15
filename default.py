@@ -184,6 +184,7 @@ def load_queries():
 
 @plugin.action()
 def root():
+    # Letzte Suchanfrage
     li = xbmcgui.ListItem(_("Last queries"))
     li.setArt({'thumb': artPath('search')})
     li.setProperty('Fanart_Image', artPath('fanart'))
@@ -195,7 +196,7 @@ def root():
         li,
         isFolder=True
     )
-
+    # Überall suchen
     li = xbmcgui.ListItem(_("Search"))
     li.setArt({'poster': artPath('search')})
     li.setProperty('Fanart_Image', artPath('fanart'))
@@ -207,7 +208,7 @@ def root():
         li,
         isFolder=True
     )
-
+    #Auf Sender suchen
     li = xbmcgui.ListItem(_("Search by channel"))
     li.setArt({'poster': artPath('search')})
     li.setProperty('Fanart_Image', artPath('fanart'))
@@ -215,9 +216,9 @@ def root():
         plugin.handle,
         plugin.get_url(action='search_channel'),
         li,
-        isFolder=False
+        isFolder=True
     )
-
+    # Überall stöbern
     li = xbmcgui.ListItem(_("Browse"))
     li.setArt({'poster': artPath('search')})
     li.setProperty('Fanart_Image', artPath('fanart'))
@@ -229,7 +230,7 @@ def root():
         li,
         isFolder=True
     )
-
+    # Auf Sender stöbern
     li = xbmcgui.ListItem(_("Browse by channel"))
     li.setArt({'poster': artPath('search')})
     li.setProperty('Fanart_Image', artPath('fanart'))
@@ -237,7 +238,7 @@ def root():
         plugin.handle,
         plugin.get_url(action='browse_channel'),
         li,
-        isFolder=False
+        isFolder=True
     )
 
     xbmcplugin.setContent(plugin.handle, '')
