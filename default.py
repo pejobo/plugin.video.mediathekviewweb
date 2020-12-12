@@ -67,6 +67,8 @@ def list_videos(callback, page, query=None, channel=None):
     no_duplicates = []
 
     for i in results:
+        # keine unterstützung für ORF - videos können nicht abgespielt werden
+        if i["channel"] == 'ORF': continue
         dt = datetime.datetime.fromtimestamp(i["timestamp"], pytz.timezone("Europe/Berlin"))
         url = ''
         if QUALITY == 0:  # Hoch
@@ -150,10 +152,13 @@ def list_videos(callback, page, query=None, channel=None):
 def get_channel():
     m = MediathekViewWeb()
     data = m.channels()
+
     if data["error"]:
         dialog = xbmcgui.Dialog()
         dialog.notification(_("Error"), data["error"])
         return
+    # keine unterstützung für ORF - videos können nicht abgespielt werden
+    data["channels"].remove('ORF')
     channels = data["channels"]
     dialog = xbmcgui.Dialog()
     index = dialog.select(_("Select channel"), channels)
