@@ -55,6 +55,7 @@ def chk_duplicates(url, title, topic, duplicates):
     except:
         pass
 
+
 def list_videos(callback, page, query=None, channel=None):
     m = MediathekViewWeb(PER_PAGE, FUTURE)
     data = m.search(query, channel, page)
@@ -305,6 +306,7 @@ def remove_query(params):
         storage['queries'].pop(int(params.index))
     xbmc.executebuiltin('Container.Refresh')
 
+
 @plugin.action()
 def remove_all_query(params):
     with plugin.get_storage() as storage:
@@ -314,6 +316,7 @@ def remove_all_query(params):
             else:
                 break
     xbmc.executebuiltin('Container.Refresh')
+
 
 @plugin.action()
 def browse_all(params):
@@ -329,10 +332,7 @@ def search_all(params):
         dialog = xbmcgui.Dialog()
         query = dialog.input(_("Search term"))
         query = py2_decode(query)
-
-    if not query:
-        plugin.action('root')
-        return
+        if not query: return
 
     save_query(query)
     list_videos("search_all", page, query=query)
@@ -344,10 +344,7 @@ def browse_channel(params):
     channel = params.get("channel")
     if not channel:
         channel = get_channel()
-
-    if not channel:
-        plugin.action('root')
-        return
+        if not channel: return
 
     list_videos("browse_channel", page, channel=channel)
 
@@ -358,20 +355,14 @@ def search_channel(params):
     channel = params.get("channel")
     if not channel:
         channel = get_channel()
-
-    if not channel:
-        plugin.action('root')
-        return
+        if not channel: return
 
     query = params.get("query")
     if not query:
         dialog = xbmcgui.Dialog()
         query = dialog.input(_("Search term"))
         query = py2_decode(query)
-
-    if not query:
-        plugin.action('root')
-        return
+        if not query: return
 
     save_query(query, channel)
     list_videos("search_channel", page, query=query, channel=channel)
@@ -386,6 +377,7 @@ def play(params):
         if subtitle_downloaded:
             li.setSubtitles([subtitle_file])
     xbmcplugin.setResolvedUrl(plugin.handle, True, li)
+
 
 if __name__ == '__main__':
     plugin.run()
