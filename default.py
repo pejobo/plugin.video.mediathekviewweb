@@ -5,21 +5,19 @@ import datetime
 import os
 import sys
 import xbmc
-import xbmcaddon
 import xbmcgui
 import xbmcplugin
 
 from resources.lib.mediathekviewweb import MediathekViewWeb
 from resources.lib.simpleplugin import Plugin, Addon
-from resources.lib.utils import py2_encode, py2_decode
+from resources.lib import utils
 
 # add pytz module to path
-addon_dir = py2_decode(xbmc.translatePath(xbmcaddon.Addon().getAddonInfo('path')))
-module_dir = os.path.join(addon_dir, "resources", "lib", "pytz")
+module_dir = os.path.join(utils.addon_dir, "resources", "lib", "pytz")
 sys.path.insert(0, module_dir)
-
 import pytz
 
+artPath = utils.artPath
 
 plugin = Plugin()
 addon = Addon()
@@ -33,27 +31,6 @@ SUBTITLE = plugin.get_setting("enable_subtitle")
 
 if SUBTITLE:
     from resources.lib.subtitles import download_subtitle
-
-# -- ka --
-# for icons and co.
-def artPath(channel):
-    art = channel.lower() + '.png'
-    return os.path.join(addon_dir, 'resources', 'media', art)
-
-#removes duplicates
-def chk_duplicates(url, title, topic, duplicates):
-    try:
-        if 'Audiodeskription' in title: return True
-        if 'Trailer' in topic: return True
-        for j in duplicates:
-            if url.split("//")[1] == j['url'].split("//")[1]:
-                return True
-            elif title == j['title']:
-                return True
-            else:
-                continue
-    except:
-        pass
 
 
 def list_videos(callback, page, query=None, channel=None):
@@ -92,7 +69,7 @@ def list_videos(callback, page, query=None, channel=None):
 
         if url == '': continue
 
-        if not chk_duplicates(url, i["title"], i["topic"], no_duplicates) == True:
+        if not utils.chk_duplicates(url, i["title"], i["topic"], no_duplicates) == True:
             no_duplicates.append({'url': url, 'title': i["title"]})
         else:
             continue
@@ -258,7 +235,7 @@ def last_queries():
         query = item.get('query')
         # fix type for already saved encoded queries
         if type(query) == str:
-            query = py2_decode(query)
+            query = utils.py2_decode(query)
         channel = item.get('channel')
         if channel:
             label = "{0}: {1}".format(channel, query)
@@ -331,7 +308,7 @@ def search_all(params):
     if not query:
         dialog = xbmcgui.Dialog()
         query = dialog.input(_("Search term"))
-        query = py2_decode(query)
+        query = utils.py2_decode(query)
         if not query: return
 
     save_query(query)
@@ -361,7 +338,7 @@ def search_channel(params):
     if not query:
         dialog = xbmcgui.Dialog()
         query = dialog.input(_("Search term"))
-        query = py2_decode(query)
+        query = utils.py2_decode(query)
         if not query: return
 
     save_query(query, channel)
