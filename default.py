@@ -85,7 +85,7 @@ def list_videos(callback, page, query=None, channel=None):
 
         li = xbmcgui.ListItem("[{0}] {1} - {2}".format(i["channel"], i["topic"], i["title"]))
 
-        li.setArt({'poster': artPath(i["channel"]), 'icon': artPath(i["channel"])})
+        li.setArt({'poster': artPath(i["channel"])})
         li.setProperty('Fanart_Image', artPath('fanart'))
 
         li.setInfo("video", {
@@ -111,7 +111,7 @@ def list_videos(callback, page, query=None, channel=None):
         next_page = page + 1
         li = xbmcgui.ListItem("[COLOR blue]{0}[/COLOR]".format(_("Next page")))
 
-        li.setArt({'poster': artPath('next'), 'icon': artPath('next')})
+        li.setArt({'poster': artPath('next')})
         li.setProperty('Fanart_Image', artPath('fanart'))
         # remove unused cm menu
         #li.setInfo('video', {'overlay': 4, 'plot': '[COLOR blue]{0}[/COLOR]'.format(_("Next page"))})
@@ -169,7 +169,7 @@ def load_queries():
 def root():
     # Letzte Suchanfrage
     li = xbmcgui.ListItem(_("Last queries"))
-    li.setArt({'thumb': artPath('search')})
+    li.setArt({'poster': artPath('search')})
     li.setProperty('Fanart_Image', artPath('fanart'))
     # remove unused cm menu
     li.setInfo('video', {'overlay': 4})
@@ -265,7 +265,7 @@ def last_queries():
     if len(queries) > 1:
         label = 'Suchverlauf löschen'
         li = xbmcgui.ListItem(label)
-        li.setArt({'poster': artPath('tools'), 'icon': artPath('tools')})
+        li.setArt({'poster': artPath('tools')})
         li.setProperty('Fanart_Image', artPath('fanart'))
         url = plugin.get_url(action='remove_all_query')
         xbmcplugin.addDirectoryItem(
