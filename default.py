@@ -84,8 +84,7 @@ def list_videos(callback, page, query=None, channel=None):
             date = dt.strftime("%d.%m.%Y")
 
         li = xbmcgui.ListItem("[{0}] {1} - {2}".format(i["channel"], i["topic"], i["title"]))
-
-        li.setArt({'poster': artPath(i["channel"])})
+        li.setArt({'thumb': artPath(i["channel"]), 'poster': artPath(i["channel"]), 'banner': artPath('banner')}) # favourites ok
         li.setProperty('Fanart_Image', artPath('fanart'))
 
         li.setInfo("video", {
@@ -111,7 +110,7 @@ def list_videos(callback, page, query=None, channel=None):
         next_page = page + 1
         li = xbmcgui.ListItem("[COLOR blue]{0}[/COLOR]".format(_("Next page")))
 
-        li.setArt({'poster': artPath('next')})
+        li.setArt({'poster': artPath('next'), 'icon': artPath('next')})
         li.setProperty('Fanart_Image', artPath('fanart'))
         # remove unused cm menu
         #li.setInfo('video', {'overlay': 4, 'plot': '[COLOR blue]{0}[/COLOR]'.format(_("Next page"))})
@@ -169,10 +168,10 @@ def load_queries():
 def root():
     # Letzte Suchanfrage
     li = xbmcgui.ListItem(_("Last queries"))
-    li.setArt({'poster': artPath('search')})
+    li.setArt({'thumb': artPath('lastsearch'), 'poster': artPath('icon')})
     li.setProperty('Fanart_Image', artPath('fanart'))
     # remove unused cm menu
-    li.setInfo('video', {'overlay': 4})
+    li.setInfo('video', {'overlay': 4, 'plot': '[B]MediathekViewWeb[/B]'})
     xbmcplugin.addDirectoryItem(
         plugin.handle,
         plugin.get_url(action='last_queries'),
@@ -181,10 +180,10 @@ def root():
     )
     # Überall suchen
     li = xbmcgui.ListItem(_("Search"))
-    li.setArt({'poster': artPath('search')})
+    li.setArt({'thumb': artPath('search'), 'poster': artPath('icon')})
     li.setProperty('Fanart_Image', artPath('fanart'))
     # remove unused cm menu
-    li.setInfo('video', {'overlay': 4})
+    li.setInfo('video', {'overlay': 4, 'plot': '[B]MediathekViewWeb[/B]'})
     xbmcplugin.addDirectoryItem(
         plugin.handle,
         plugin.get_url(action='search_all'),
@@ -193,8 +192,10 @@ def root():
     )
     #Auf Sender suchen
     li = xbmcgui.ListItem(_("Search by channel"))
-    li.setArt({'poster': artPath('search')})
+    li.setArt({'thumb': artPath('search'), 'poster': artPath('icon')})
     li.setProperty('Fanart_Image', artPath('fanart'))
+    # remove unused cm menu
+    li.setInfo('video', {'overlay': 4, 'plot': '[B]MediathekViewWeb[/B]'})
     xbmcplugin.addDirectoryItem(
         plugin.handle,
         plugin.get_url(action='search_channel'),
@@ -203,10 +204,10 @@ def root():
     )
     # Überall stöbern
     li = xbmcgui.ListItem(_("Browse"))
-    li.setArt({'poster': artPath('search')})
+    li.setArt({'thumb': artPath('search'), 'poster': artPath('icon')})
     li.setProperty('Fanart_Image', artPath('fanart'))
     # remove unused cm menu
-    li.setInfo('video', {'overlay': 4})
+    li.setInfo('video', {'overlay': 4, 'plot': '[B]MediathekViewWeb[/B]'})
     xbmcplugin.addDirectoryItem(
         plugin.handle,
         plugin.get_url(action='browse_all'),
@@ -215,8 +216,10 @@ def root():
     )
     # Auf Sender stöbern
     li = xbmcgui.ListItem(_("Browse by channel"))
-    li.setArt({'poster': artPath('search')})
+    li.setArt({'thumb': artPath('search'), 'poster': artPath('icon')})
     li.setProperty('Fanart_Image', artPath('fanart'))
+    # remove unused cm menu
+    li.setInfo('video', {'overlay': 4, 'plot': '[B]MediathekViewWeb[/B]'})
     xbmcplugin.addDirectoryItem(
         plugin.handle,
         plugin.get_url(action='browse_channel'),
@@ -244,7 +247,10 @@ def last_queries():
             label = query
             url = plugin.get_url(action='search_all', query=query)
         li = xbmcgui.ListItem(label)
-        li.setArt({'poster': artPath('search')})
+        if channel:
+            li.setArt({'thumb': artPath(channel), 'poster': artPath('lastsearch')})
+        else:
+            li.setArt({'thumb': artPath('icon'), 'poster': artPath('lastsearch')})
         li.setProperty('Fanart_Image', artPath('fanart'))
         # remove unused cm menu
         li.setInfo('video', {'overlay': 4, 'plot': '[COLOR blue]{0} : [/COLOR] {1} {2}'.format(_("Search term"), channel if channel != None else '', query)})
@@ -254,7 +260,6 @@ def last_queries():
                 'XBMC.RunPlugin({0})'.format(plugin.get_url(action='remove_query', index=index))
             )
         ])
-
         xbmcplugin.addDirectoryItem(
             plugin.handle,
             url,
@@ -265,7 +270,7 @@ def last_queries():
     if len(queries) > 1:
         label = 'Suchverlauf löschen'
         li = xbmcgui.ListItem(label)
-        li.setArt({'poster': artPath('tools')})
+        li.setArt({'poster': artPath('tools'), 'icon': artPath('tools')})
         li.setProperty('Fanart_Image', artPath('fanart'))
         url = plugin.get_url(action='remove_all_query')
         xbmcplugin.addDirectoryItem(
