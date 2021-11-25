@@ -257,7 +257,7 @@ def last_queries():
         li.addContextMenuItems([
             (
                 _("Remove query"),
-                'XBMC.RunPlugin({0})'.format(plugin.get_url(action='remove_query', index=index))
+                'RunPlugin({0})'.format(plugin.get_url(action='remove_query', index=index))
             )
         ])
         xbmcplugin.addDirectoryItem(
