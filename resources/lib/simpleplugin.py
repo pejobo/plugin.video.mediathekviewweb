@@ -27,7 +27,11 @@ import time
 import hashlib
 import pickle
 from io import open
-from collections import MutableMapping, namedtuple
+if (sys.version_info >= (3, 10)):
+    from collections.abc import MutableMapping
+else:
+    from collections import MutableMapping
+from collections import namedtuple
 from copy import deepcopy
 from functools import wraps
 from shutil import copyfile
