@@ -46,6 +46,7 @@ else:
 import xbmcaddon
 import xbmc
 import xbmcgui
+import xbmcvfs
 
 __all__ = ['SimplePluginError', 'Storage', 'MemStorage', 'Addon', 'Plugin',
            'RoutedPlugin', 'Params', 'log_exception', 'py2_encode',
@@ -424,7 +425,7 @@ class Addon(object):
         """
         self._addon = xbmcaddon.Addon(id_)
         self._profile_dir = py2_decode(
-            xbmc.translatePath(self._addon.getAddonInfo('profile'))
+            xbmcvfs.translatePath(self._addon.getAddonInfo('profile'))
         )
         self._ui_strings_map = None
         if not os.path.exists(self._profile_dir):
